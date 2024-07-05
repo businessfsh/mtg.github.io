@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html> 
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MTG Life Tracker</title>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+            .life-counter {
+                font-size: 36px;
+                margin: 10px;
+                padding: 10px;
+                border-radius: 10px;
+            }
+            .buttons {
+                display: flex;
+                gap: 10px;
+            }
+            button {
+                padding: 10px;
+                font-size: 18px;
+            }
+            #player-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .player {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 20px;
+            }
+            .player:nth-child(1) .life-counter { background-color: lightcoral; }
+            .player:nth-child(2) .life-counter { background-color: lightblue; }
+            .player:nth-child(3) .life-counter { background-color: lightgreen; }
+            .player:nth-child(4) .life-counter { background-color: lightgoldenrodyellow; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <label for="num-players">Select number of players:</label>
+            <select id="num-players" onchange="setupPlayers()">
+                <option value="2">2 Players</option>
+                <option value="4">4 Players</option>
+            </select>
+        </div>
+        <div id="player-container"></div>
+        <script>
+            const playerContainer = document.getElementById('player-container');
+    
+            function setupPlayers() {
+                const numPlayers = document.getElementById('num-players').value;
+                playerContainer.innerHTML = '';
+    
+                for (let i = 1; i <= numPlayers; i++) {
+                    const playerDiv = document.createElement('div');
+                    playerDiv.classList.add('player');
+                    playerDiv.innerHTML = `
+                        <div class="life-counter" id="life-total-${i}">20</div>
+                        <div class="buttons">
+                            <button onclick="changeLife(${i}, -1)">-</button>
+                            <button onclick="changeLife(${i}, 1)">+</button>
+                        </div>
+                    `;
+                    playerContainer.appendChild(playerDiv);
+                }
+            }
+    
+            function changeLife(player, amount) {
+                const lifeTotalElement = document.getElementById(`life-total-${player}`);
+                let lifeTotal = parseInt(lifeTotalElement.innerText);
+                lifeTotal += amount;
+                lifeTotalElement.innerText = lifeTotal;
+            }
+    
+            // Initialize with 2 players
+            setupPlayers();
+        </script>
+    </body>
+</html>
